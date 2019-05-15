@@ -1,1 +1,1 @@
-# note-web
+# Các ghi chép trong quá trình học lập trình web
