@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ebook</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			</td>
+			<td>
+				<h3>Content</h3>
+				<a href="#">Introduction</a>
+				<ol type="1">
+					<li><a href="#">Link</a></li>
+					<li><a href="#">Link</a></li>
+					<li><a href="#">Link</a></li>
+					<li><a href="#">Link</a></li>
+					<li><a href="#">Link</a></li>
+					<li><a href="#">Link</a></li>
+				</ol>
+			</td>
+		</tr>
+	</table>
+	<p id="count"></p>
+	<button type="button" id="button" onCLick="inCrease()">click</button>
+	<input type="text" id="searchBox" placeholder="Search..." />
+	<button>Search</button>
+	<button onClick="clearText()">Clear</button>
+	<script type="text/javascript">
+		var element = document.getElementsByTagName("li")
+		console.log(element)
+		for (item of element) {
+			item.innerHTML = 'hihi'
+		}
+
+		var count = 0;
+		var counter = document.getElementById('count');
+		counter.innerHTML = count;
+		var button = document.getElementById("button")
+
+		function inCrease() {
+			value = counter.textContent
+		  counter.innerHTML = parseInt(value) + 1
+		}
+		var clear = document.getElementsByTagName('button')[2]
+		function clearText() {
+			input = document.getElementsByTagName('input')[0]
+			console.log(input)
+			input.value = ''
+		}
+	</script>
+</body>
+</html>
