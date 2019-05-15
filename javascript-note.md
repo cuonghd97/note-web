@@ -234,3 +234,177 @@ console.log(b)
 
 > rest gom các phần thử thành một array còn spread thì trải array ra thành các phần tử riêng lẻ  
 
+# Value types vs Reference types
+
+```
+// Value types
+let a1 = 1
+let a2 = 1
+
+console.log(a1 === a2) // true
+
+
+// Reference types
+let obj1 = { a: 1 }
+let obj2 = { a: 1 }
+
+console.log(obj1 === obj2) // false
+// vì với các kiểu phức tạp như object và array nên obj1 và obj2 lưu các giá trị tham chiếu đến object nên khi so sánh thực chất là so sánh 2 giá trị tham chiếu
+
+let a3 = a2
+a3 = 2
+console.log(a2) // 1
+
+
+let obj3 = obj2
+obj3.a = 2
+console.log(obj2) // { a: 2 }
+// vì việc gán obj3 = obj2 là chỉ gán giá trị tham chiếu của obj2 cho obj3 cả obj2 và obj3 đều trỏ đến một object
+
+let obj4 = obj1
+console.log(obj4 === obj1) // true
+obj4.a = 2
+console.log(obj4 === obj1) // true
+// vì phép gán chỉ gán giá trị tham chiếu nên cả 2 kết quả đều là true
+
+
+function log(x) {
+  x = 3
+}
+let x = 1
+console.log(x) // 1
+log(x)
+console.log(x) // 1
+
+function log(x) {
+  x.a = 2
+}
+x = { a:1 }
+console.log(x) // { a: 1 }
+log(x)
+console.log(x) // { a: 2 }
+// Cần chú ý ở đây vì đối với value type sau khi gọi hàm giá trị của biến không thay đổi còn đối với reference type gía trị của biến sau khi gọi hàm bị thay đổi  
+```  
+# spread (part 2)
+
+## shadow-clone:
+Ví dụ: 
+```
+const obj1 = {
+  a: 1,
+  b: 2,
+  c: 3
+}
+
+let obj2 = {}
+for (let key in obj1) {
+  obj2[key] = obj1[key]
+}
+
+obj2.a = 10
+console.log({obj1, obj2}) 
+// { obj1: { a: 1, b: 2, c: 3 },
+//   obj2: { a: 10, b: 2, c: 3 } }
+```  
+> Trường hợp khác: 
+```
+const obj1 = {
+  a: 1,
+  b: 2,
+  c: 3,
+  d: { e: 4 }
+}
+
+let obj2 = {}
+for (let key in obj1) {
+  obj2[key] = obj1[key]
+}
+
+obj2.d.e = 10
+console.log({obj1, obj2}) 
+// { obj1: { a: 1, b: 2, c: 3, d: { e: 10 } }, 
+//   obj2: { a: 1, b: 2, c: 3, d: { e: 10 } } }
+```  
+### deep clone
+```
+const obj1 = {
+  a: 1,
+  b: 2,
+  c: 3,
+  d: { e: 4 }
+}
+
+let obj2 = {
+  ...obj1,
+  z: 9
+}
+
+console.log({obj1, obj2}) 
+// { obj1: { a: 1, b: 2, c: 3, d: { e: 4 } }, 
+//   obj2: { a: 1, b: 2, c: 3, d: { e: 4 }, z: 9 } }
+```  
+Thực chất obj2 vẫn shadow clone obj1 và chỉ thêm phần tử mới, nếu thay giá trị reference types ví dụ: `obj2.d.e = 11` thì obj1 vẫn bị thay đổi
+# closure
+
+```
+function sum(a, b) {
+  const c = a + b
+  return function() {
+    console.log(c)
+  }
+}
+//Hàm được viết ở return được gọi là clossure vì nó có thể truy cập được các biến bên ngoài hàm đó
+sum(1, 2)() // 3
+```
+# High order function
+Với "Higher-Order Function (HOF)", tham số kia có thể làm hàm, và kết quả trả về lại là một hàm khác
+```
+function waitAndRun(ms, func) {
+  setTimeout(func, ms)
+}
+
+function run() {
+  console.log("Run...")
+}
+
+waitAndRun(2000, run)
+```  
+`waitAndRun` là một High order function  
+# Destructuring
+Chỉ áp dụng cho array hay objects  
+
+Ví dụ destructure array:  
+```
+const arr = [1, 2, 3, 4, 5]
+const [a, b, c, d, e] = arr
+console.log(a, b, c, d, e)
+// a=1, b=2, c=3, d=4, e=5
+```  
+```
+const arr = [1, 2, 3, 4, 5]
+const [a, e] = arr
+console.log(a, b, c, d, e)
+// a=1, e = 2
+```  
+```
+const arr = [1, 2, 3, 4, 5]
+const [a, b, c, d, e] = arr
+console.log(a, , , , e)
+// a=1, e=5
+```
+```
+const arr = [1, 2, 3, 4, 5]
+const [a, ...b] = arr // rest
+console.log(a, b, c, d, e)
+// a=1, b=[2, 3, 4, 5]
+```  
+Làm tương tự đối với object:  
+```
+const obj = {
+  a: 1,
+  b: 2,
+  c: 3
+}
+const { a:a, b:b, c:c} = obj
+// Hoặc viết cách khác: const { a, b, c} = obj
+```  
